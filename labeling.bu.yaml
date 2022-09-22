@@ -1,0 +1,33 @@
+variant: openshift
+version: 4.11.0
+metadata:
+  name: 99-worker-labeling
+  labels:
+    machineconfiguration.openshift.io/role: worker 
+storage:
+  files:
+  - path: /etc/kubernetes/node-feature-discovery/source.d/conf/rules.txt
+    mode: 420 
+    overwrite: true
+    contents:
+      inline: |
+        # Format: "hostname:key1=value1,key2=value2"
+        vgrinberg-virt-worker-0.karmalabs.com:custom-label/parameter1=true,custom-label/parameter2=false
+        vgrinberg-virt-worker-1.karmalabs.com:custom-label/parameter1=false,custom-label/parameter2=true
+  - path: /etc/kubernetes/node-feature-discovery/source.d/custom-label
+    mode: 493
+    overwrite: true
+    contents:
+      inline: |
+        #!/bin/bash
+
+        host=$(cat /etc/hostname)
+        export TMPDIR=/dev/shm
+        host_labels=$(cat /etc/kubernetes/node-feature-discovery/source.d/conf/rules.txt | grep $host)
+        host_labels=${host_labels#"$host:"}
+        IFS=',' read -ra my_array <<< "$host_labels"
+        for i in "${my_array[@]}"
+        do
+            echo $i
+        done
+
