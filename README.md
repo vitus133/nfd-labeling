@@ -8,12 +8,6 @@ NFD is highly extensible, and can label nodes with custom labels defined as text
 2. The `butane` binary (get it from https://mirror.openshift.com/pub/openshift-v4/clients/butane/latest/).
 
 ## Workflow ##
-### Deploying the NFD operator ###
-In the root directory of this repository, run:
-
-```bash
-$ oc apply -f deploy
-```
 ### Configuring the operator for custom labels ###
 Custom label namespaces must be explicitly [enabled](deploy/nfd.yaml#L8):
 ```yaml
@@ -27,6 +21,13 @@ spec:
   extraLabelNs:
     - custom-label 
   # The rest of configuration is default
+
+```
+### Deploying the NFD operator ###
+In the root directory of this repository, run:
+
+```bash
+$ oc apply -f deploy
 ```
 ### Preparing nodes and labels relations ###
 As a user, you want to apply a set of labels to each worker node in the cluster. Start from planning and create a list of nodes and labels relations:
