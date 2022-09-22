@@ -15,7 +15,19 @@ In the root directory of this repository, run:
 $ oc apply -f deploy
 ```
 ### Configuring the operator for custom labels ###
-Custom label namespaces must be explicitly [enabled](deploy/nfd.yaml#L8)
+Custom label namespaces must be explicitly [enabled](deploy/nfd.yaml#L8):
+```yaml
+apiVersion: nfd.openshift.io/v1
+kind: NodeFeatureDiscovery
+metadata:
+  name: nfd-instance
+  namespace: openshift-nfd
+spec:
+  # We must specify custom label namespace as shown below:
+  extraLabelNs:
+    - custom-label 
+  # The rest of configuration is default
+```
 ### Preparing nodes and labels relations ###
 As a user, you want to apply a set of labels to each worker node in the cluster. Start from planning and create a list of nodes and labels relations:
 ```text
