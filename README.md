@@ -14,6 +14,8 @@ In the root directory of this repository, run:
 ```bash
 $ oc apply -f deploy
 ```
+### Configuring the operator for custom labels ###
+Custom label namespaces must be explicitly [enabled](deploy/nfd.yaml#L8)
 ### Preparing nodes and labels relations ###
 As a user, you want to apply a set of labels to each worker node in the cluster. Start from planning and create a list of nodes and labels relations:
 ```text
