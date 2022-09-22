@@ -1,7 +1,7 @@
-# Labelling nodes with NFD #
-This demo shows how to label openshift nodes with custom labels using node feature discovery operator (NFD).
-NFD allows discovery of node features related to hardware and OS. Discovered features are then added to the kubernetes nodes as labels.
-In addition, NFD is highly extensible, and can label nodes with custom labels defined as text files on the node file system, or even derived from stdout of user scripts. Why not use this flexibility to label a large amount of nodes?
+# Labeling nodes with NFD #
+This demo shows how to assign Openshift nodes with custom labels using node feature discovery operator (NFD).
+NFD discovers node features related to hardware and OS and adding them to the kubernetes nodes as labels.
+NFD is highly extensible, and can label nodes with custom labels defined as text files on the node file system, or even derived from stdout of user scripts. Why not use this flexibility to label a large amount of nodes?
 
 ## Prerequisites ##
 1. A cluster (tested on OCP 4.12.0-ec.3) with kubeconfig set for cli access
@@ -63,6 +63,12 @@ Labels:             beta.kubernetes.io/arch=amd64
 
 ```
 Done!
+
+## Caveats ## 
+Applying the machineconfig to your cluster will restart the nodes.
+However, there is a way around this. If the machineconfig is incorporated into ignition (as for example in [ztp workflow](https://github.com/openshift-kni/cnf-features-deploy/tree/master/ztp/gitops-subscriptions/argocd)) it will be installed at Day0 without additional rebooting.
+Then, at Day 2, the NFD operator will be installed and configured, and the labels will be applied.
+Any labelling changes after the installation will cost a reboot.
 
 
 
